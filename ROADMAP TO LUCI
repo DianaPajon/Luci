@@ -1,0 +1,2 @@
+-Full regex matchups no tiene mucho sentido, ya que todo se lematiza. Analizar eso.
+-Al lematizador le faltó las categorias "sustantivo" "adjetivo" y "verbo"
