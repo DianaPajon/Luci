@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.aura.luci.chatbot;
+package com.aura.luci.chatbot.luciml;
 
 import com.aura.lematizador.lematizador.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -30,26 +29,32 @@ public abstract class Pattern {
     
     public static Pattern buildPattern(Node patternNode){
 
-        List<Pair<String, String>> listOfSets = new ArrayList<>();
-        List<Pair<String,String>> listOfReads = new ArrayList<>();
-        String patternText = "";
+        List<PatternItem> items = new ArrayList<>();
 
         for(int j = 0; j < patternNode.getChildNodes().getLength();j++){
             Node currentNode = patternNode.getChildNodes().item(j);
             switch(currentNode.getNodeName()){
                 case "#text":
-                    patternText = patternText + currentNode.getTextContent();
+                    //TODO: implementar tokenización y decidir subpatrón de regex.
+                    String[] strings = currentNode.getTextContent().replace(",", "").split(" ");
+                    for(String palabra : strings){
+                        if(palabra.matches("[a-zA-Z0-9]+")){
+                            items.add(new PatternTextItem(palabra)); //Sólamente los patterntextitem pasan por lematizacion.
+                        } else {
+                            if(palabra.length() > 2)
+                                items.add(new PatternRegexItem(palabra));
+                        }
+                    }
                     break;
-                case "set":
-                    String setVar = currentNode.getAttributes().getNamedItem("name").getTextContent();
-                    String setValue = currentNode.getTextContent();
-                    listOfSets.add(new Pair(setVar, setValue));
+
+                case "get":
+                    String getVar = currentNode.getAttributes().getNamedItem("name").getTextContent();
+                    items.add(new PatternGetItem(getVar));
                     break;
                 case "read":
                     String readVar = currentNode.getAttributes().getNamedItem("name").getTextContent();
-                    String readValue = currentNode.getTextContent();
-                    listOfReads.add(new Pair(readVar, readValue));
-                    patternText = patternText + "(" + currentNode.getTextContent() + ")";
+                    String readPattern = currentNode.getTextContent();
+                    items.add(new PatternReadItem(readVar, readPattern));
                     break;
                 case "event":
                     return new EventPattern(currentNode.getAttributes().getNamedItem("name").getTextContent(), Pattern.buildPattern(currentNode));
@@ -59,7 +64,7 @@ public abstract class Pattern {
 
         }
         
-        return new TextPattern(listOfSets, listOfReads, patternText);
+        return new TextPattern(items);
         
     }
 }
