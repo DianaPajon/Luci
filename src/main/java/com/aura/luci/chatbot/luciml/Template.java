@@ -25,10 +25,10 @@ public class Template {
             Node elemento = template.getChildNodes().item(i);
             switch(elemento.getNodeName()){
                 case "#text":
-                    items.add(new TemplateTextItem(elemento.getTextContent()));
+                    items.add(new TemplateTextItem(elemento.getNodeValue()));
                     break;
                 case "get":
-                    items.add(new TemplateGetItem(elemento.getAttributes().getNamedItem("name").getTextContent()));
+                    items.add(new TemplateGetItem(elemento.getAttributes().getNamedItem("name").getNodeValue()));
             }
         }
     }

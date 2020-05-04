@@ -5,6 +5,7 @@
  */
 package com.aura.luci.main;
 
+import com.aura.lematizador.lematizador.Lematizador;
 import com.aura.lematizador.lematizador.Pair;
 import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
@@ -32,25 +33,28 @@ public class LuciMain {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	Document document = (Document) dBuilder.parse(cfgFile);
-                
+        
         //Parseo por estructura:
         
         NodeList lucis = document.getElementsByTagName("luciml");
         
         Node luci = lucis.item(0);
         NodeList hijosDeLuci = luci.getChildNodes();
-        
+        Lematizador lematizador = null;
         List<Category> categorias = new ArrayList<>();
         for(int i = 0 ; i < hijosDeLuci.getLength() ; i++ ){
             Node hijo = hijosDeLuci.item(i);
             switch(hijo.getNodeName()){
                 case "lematizador" :
+                    File dictFile = new File(hijo.getAttributes().getNamedItem("diccionario").getNodeValue());
+                    Document dictDocument = (Document) dBuilder.parse(dictFile);
+                    lematizador = new Lematizador(dictDocument);
                     break;
                 case "category" :
                     Category categoria = new Category();
                     Node pre = hijo.getAttributes().getNamedItem("pre");
                     if(pre != null){
-                        categoria.setPre(Arrays.asList(pre.getTextContent().split(",")));
+                        categoria.setPre(Arrays.asList(pre.getNodeValue().split(",")));
                     } else {
                         categoria.setPre(null);
                     }

@@ -36,7 +36,7 @@ public abstract class Pattern {
             switch(currentNode.getNodeName()){
                 case "#text":
                     //TODO: implementar tokenización y decidir subpatrón de regex.
-                    String[] strings = currentNode.getTextContent().replace(",", "").split(" ");
+                    String[] strings = currentNode.getNodeValue().replace(",", "").split(" ");
                     for(String palabra : strings){
                         if(palabra.matches("[a-zA-Z0-9]+")){
                             items.add(new PatternTextItem(palabra)); //Sólamente los patterntextitem pasan por lematizacion.
@@ -48,11 +48,11 @@ public abstract class Pattern {
                     break;
 
                 case "get":
-                    String getVar = currentNode.getAttributes().getNamedItem("name").getTextContent();
+                    String getVar = currentNode.getAttributes().getNamedItem("name").getNodeValue();
                     items.add(new PatternGetItem(getVar));
                     break;
                 case "read":
-                    String readVar = currentNode.getAttributes().getNamedItem("name").getTextContent();
+                    String readVar = currentNode.getAttributes().getNamedItem("name").getNodeValue();
                     String readPattern = currentNode.getTextContent();
                     items.add(new PatternReadItem(readVar, readPattern));
                     break;

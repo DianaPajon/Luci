@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<diccionario>
+	<relacion tipo="sem" directa="meronimo" inversa="hiperonimo"/>
+	<relacion tipo="sem" directa="lalalanimo" inversa="miminimo"/>
+	<relacion tipo="lex" directa="antonimo"/>
+	<synset lema="automovil-01" type="sustantivo">
+		<sem lema="rueda-01" relacion="meronimo"/>
+		<word lex="coche" />
+		<word lex="auto" />
+	</synset>
+	<synset lema="claro" type="adjetivo">
+		<word lex="claro">
+			<lex word="oscuro" relacion="antonimo" />
+		</word>
+	</synset>
+	<synset lema="oscuro" type="adjetivo">
+		<word lex="oscuro">
+		</word>
+	</synset>
+</diccionario>
