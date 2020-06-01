@@ -31,11 +31,8 @@ public class LuciMain {
         Luci luci = new Luci(document);
         
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String pregunta = "Hola";
-        while(pregunta != null && pregunta.length()> 1){
-            pregunta = reader.readLine();
-            System.out.println(luci.responder(pregunta));
-        }
+        String pregunta = "Hola, soy Diana, soy \"la programadora\"";
+        System.out.println(luci.responder(pregunta));
     }
     
     

@@ -80,7 +80,6 @@ public class Luci {
             }
             
         }
-        System.out.println(categorias);
     }
     
     public Lematizador getLematizador() {
@@ -107,6 +106,19 @@ public class Luci {
         this.estado = estado;
     }
     
+    private List<String> tokenizarEntrada(String stringOriginal){
+        List<String> ret = new ArrayList<>();
+        
+        String delims = "[\\s,\\.;:]+";
+        String rubbish = "\"'";
+        String[] splitted = stringOriginal.split(delims);
+        
+        for(String s : splitted){
+            String cleanString = s.replaceAll("[" + rubbish + "]+", "");
+            ret.add(cleanString);
+        }
+        return ret;
+    }
     
     private Set<Category> respuestasDisponibles(){
         Set<String> precondicion = new HashSet<>();
@@ -145,7 +157,8 @@ public class Luci {
                 Si no hay match, hago bag-of-words.
             -Con eso se construye la respuesta.
         */
-        return "Hola";
+        
+        return tokenizarEntrada(input).toString();
     }
     
 }
