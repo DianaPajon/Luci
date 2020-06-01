@@ -5,22 +5,16 @@
  */
 package com.aura.luci.main;
 
-import com.aura.lematizador.lematizador.Lematizador;
-import com.aura.lematizador.lematizador.Pair;
-import com.aura.luci.chatbot.luciml.Category;
-import com.aura.luci.chatbot.luciml.Pattern;
-import com.aura.luci.chatbot.luciml.Template;
+
+import com.aura.luci.chatbot.engine.Luci;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.InputStreamReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -34,54 +28,14 @@ public class LuciMain {
 	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	Document document = (Document) dBuilder.parse(cfgFile);
         
-        //Parseo por estructura:
+        Luci luci = new Luci(document);
         
-        NodeList lucis = document.getElementsByTagName("luciml");
-        
-        Node luci = lucis.item(0);
-        NodeList hijosDeLuci = luci.getChildNodes();
-        Lematizador lematizador = null;
-        List<Category> categorias = new ArrayList<>();
-        for(int i = 0 ; i < hijosDeLuci.getLength() ; i++ ){
-            Node hijo = hijosDeLuci.item(i);
-            switch(hijo.getNodeName()){
-                case "lematizador" :
-                    File dictFile = new File(hijo.getAttributes().getNamedItem("diccionario").getNodeValue());
-                    Document dictDocument = (Document) dBuilder.parse(dictFile);
-                    lematizador = new Lematizador(dictDocument);
-                    break;
-                case "category" :
-                    Category categoria = new Category();
-                    Node pre = hijo.getAttributes().getNamedItem("pre");
-                    if(pre != null){
-                        categoria.setPre(Arrays.asList(pre.getNodeValue().split(",")));
-                    } else {
-                        categoria.setPre(null);
-                    }
-                    Pattern p = null;
-                    Template t = null;
-                    for(int j = 0; j < hijo.getChildNodes().getLength();j++){
-                        Node nieto = hijo.getChildNodes().item(j);
-                        switch(nieto.getNodeName()){
-                            case "pattern":
-                                p = Pattern.buildPattern(nieto);
-                                break;
-                            case "template":
-                                t = new Template(nieto);
-                                break;
-                        }
-                    }
-                    categoria.setPatron(p);
-                    categoria.setTemplate(t);
-                    categorias.add(categoria);
-                    break;
-                default:
-                    break;
-            }
-            
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String pregunta = "Hola";
+        while(pregunta != null && pregunta.length()> 1){
+            pregunta = reader.readLine();
+            System.out.println(luci.responder(pregunta));
         }
-        System.out.println(categorias);
-        
     }
     
     
