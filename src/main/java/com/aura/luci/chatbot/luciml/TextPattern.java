@@ -5,16 +5,13 @@
  */
 package com.aura.luci.chatbot.luciml;
 
-import com.aura.lematizador.lematizador.Pair;
-import com.aura.luci.chatbot.luciml.Pattern;
-import com.aura.luci.chatbot.luciml.PatternItem;
 import java.util.List;
 
 /**
  *
  * @author diana
  */
-public class TextPattern extends Pattern {
+public class TextPattern implements Pattern{
     private List<PatternItem> items;
     
     public TextPattern(List<PatternItem> items){

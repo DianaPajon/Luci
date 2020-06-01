@@ -9,7 +9,7 @@ package com.aura.luci.chatbot.luciml;
  *
  * @author diana
  */
-public class EventPattern  extends Pattern {
+public class EventPattern  implements Pattern {
     private String event;
     private Pattern innerPattern;
     

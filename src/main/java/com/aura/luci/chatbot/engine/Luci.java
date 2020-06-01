@@ -9,6 +9,7 @@ import com.aura.lematizador.lematizador.Lematizador;
 import com.aura.lematizador.lematizador.Pair;
 import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
+import com.aura.luci.chatbot.luciml.PatternBuild;
 import com.aura.luci.chatbot.luciml.Template;
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class Luci {
                         Node nieto = hijo.getChildNodes().item(j);
                         switch(nieto.getNodeName()){
                             case "pattern":
-                                p = Pattern.buildPattern(nieto);
+                                p = PatternBuild.buildPattern(nieto);
                                 break;
                             case "template":
                                 t = new Template(nieto);
@@ -119,6 +120,7 @@ public class Luci {
         }
         return ret;
     }
+    
     
     private Set<Category> respuestasDisponibles(){
         Set<String> precondicion = new HashSet<>();
