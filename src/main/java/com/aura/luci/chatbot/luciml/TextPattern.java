@@ -17,4 +17,14 @@ public class TextPattern implements Pattern{
     public TextPattern(List<PatternItem> items){
         this.items = items;
     }
+
+    public List<PatternItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PatternItem> items) {
+        this.items = items;
+    }
+    
+    
 }
