@@ -127,6 +127,7 @@ public class Luci {
         return ret;
     }
     
+    
     private Integer matchLemma(String palabra1, String palabra2){
         return 0;
     }
@@ -189,26 +190,7 @@ public class Luci {
     }
     
     public String responder(String input){
-        /*
-            -Voy a recibir un string..
-            -Voy a matchear con strings/regex
-            -Se tokeniza, se separan las regex como tokens especiales
-            -Un wrapper del lematizador:
-                Tiene que permitir:
-                    -Hola, soy Diana Pajón y hago un lematizador. <- input
-                    -Hola, soy .* y hago .*
-                tokens:
-                    [Hola, soy, Diana, ..] <-input
-                    [Hola, soy, .*, y, hago, .*]
-                    Matcheo primero las no-regex, y matcheo las regex con lo que quede. No tiene que ser perfecto.
-                    [Hola <- consumo lema hola, soy <- consumo lema soy, busco lema y, lo que queda es el primer .*, <- consumo lema y, etc]
-                Al matchear lemas, si son la misma palabra matchean ok, toda palabra matchea con su propio lema y el posible lema que devuelve el lematizador.
-                Al matchear regex, matchea si el conjunto de palabras con espacio (LE QUITO POTENCIA A LAS REGEX, POR SIMPLICIDAD DE IMPLEMENTACION) conicide con la regex.
-                Si hay match, sale esa respuesta.
-                Si no hay match, hago bag-of-words.
-            -Con eso se construye la respuesta.
-        */
-        
+ 
         return tokenizarEntrada(input).toString();
     }
     
