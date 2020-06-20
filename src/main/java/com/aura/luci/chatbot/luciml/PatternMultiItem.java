@@ -9,9 +9,9 @@ package com.aura.luci.chatbot.luciml;
  *
  * @author diana
  */
-public class PatternRegexItem extends PatternItem {
+public class PatternMultiItem extends PatternItem {
     String regex;
-    public PatternRegexItem(String regex){
+    public PatternMultiItem(String regex){
         this.regex = regex;
     }
 

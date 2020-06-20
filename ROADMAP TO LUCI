@@ -1,2 +1,14 @@
--Full regex matchups no tiene mucho sentido, ya que todo se lematiza. Analizar eso.
--Al lematizador le faltó las categorias "sustantivo" "adjetivo" y "verbo"
+Replanteando el algoritmo de luci.
+
+-Tengo un lematizador, este puede devolver los "lemas". Vamos a usar el hiperónimo y el sinónimo 
+como herramienta principal.  La idea es construir las expresiones AIML con hiperónimos cuando se 
+pueda. Y así poder reconocer hiperónimos y sinónimos.
+-Después, al hacer bag-of-words, se utiliza el algoritmo que vi en el paper.
+-El asterisco va a matchear varias palabras, pero siempre hay que matchear todas las palabras
+ siguientes. Por ejemplo PALABRA1 * PALABRA2 nunca va a matchear PALABRA1 lalala, pero si PALABRA1 lalal asdfas PALABRA2.
+-Al hacer matching por reglas directas, se habilitan los reads/sets. De otra forma no. Las reglas con
+ reads se utilizan solamente con el matching por reglas.
+ 
+ Hago ahora el algoritmo para matching por reglas:
+ -Uso el matching de astericos como está, elimino el "regex" y pongo "múltiple".
+  Para eso empiezo replanteando todo. 

@@ -41,7 +41,7 @@ public abstract class PatternBuild {
                             items.add(new PatternTextItem(palabra)); //Sólamente los patterntextitem pasan por lematizacion.
                         } else {
                             if(palabra.length() > 2)
-                                items.add(new PatternRegexItem(palabra));
+                                items.add(new PatternMultiItem(palabra));
                         }
                     }
                     break;

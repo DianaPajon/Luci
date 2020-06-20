@@ -11,8 +11,8 @@ import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
 import com.aura.luci.chatbot.luciml.PatternItem;
+import com.aura.luci.chatbot.luciml.PatternMultiItem;
 import com.aura.luci.chatbot.luciml.PatternReadItem;
-import com.aura.luci.chatbot.luciml.PatternRegexItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Template;
 import com.aura.luci.chatbot.luciml.TextPattern;
@@ -157,7 +157,7 @@ public class Luci {
             else{
                 return match * findMatchingPairs(nextWords, nextItems);
             }
-        } else if (patternItem instanceof PatternRegexItem || patternItem instanceof PatternReadItem)
+        } else if (patternItem instanceof PatternMultiItem || patternItem instanceof PatternReadItem)
         {
             List<PatternItem> nextItems = patterns.subList(1, patterns.size());
             List<String> nextWords = tokenizedInput.subList(1, tokenizedInput.size());
@@ -190,7 +190,6 @@ public class Luci {
     }
     
     public String responder(String input){
- 
         return tokenizarEntrada(input).toString();
     }
     
