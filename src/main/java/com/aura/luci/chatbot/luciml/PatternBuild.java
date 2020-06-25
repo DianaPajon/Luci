@@ -37,11 +37,10 @@ public abstract class PatternBuild {
                     //TODO: implementar tokenización y decidir subpatrón de regex.
                     String[] strings = currentNode.getNodeValue().replace(",", "").split(" ");
                     for(String palabra : strings){
-                        if(palabra.matches("[a-zA-Z0-9]+")){
-                            items.add(new PatternTextItem(palabra)); //Sólamente los patterntextitem pasan por lematizacion.
+                        if(palabra.matches("\\*")){
+                            items.add(new PatternMultiItem(palabra));
                         } else {
-                            if(palabra.length() > 2)
-                                items.add(new PatternMultiItem(palabra));
+                        	items.add(new PatternTextItem(palabra));
                         }
                     }
                     break;
