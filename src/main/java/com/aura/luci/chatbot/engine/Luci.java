@@ -10,17 +10,11 @@ import com.aura.lematizador.lematizador.Pair;
 import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
-import com.aura.luci.chatbot.luciml.PatternItem;
-import com.aura.luci.chatbot.luciml.PatternMultiItem;
-import com.aura.luci.chatbot.luciml.PatternReadItem;
-import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Template;
-import com.aura.luci.chatbot.luciml.TextPattern;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +39,6 @@ public class Luci {
         
         Node luci = lucis.item(0);
         NodeList hijosDeLuci = luci.getChildNodes();
-        Lematizador lematizador = null;
         List<Category> categorias = new ArrayList<>();
         for(int i = 0 ; i < hijosDeLuci.getLength() ; i++ ){
             Node hijo = hijosDeLuci.item(i);
@@ -61,9 +54,9 @@ public class Luci {
                     Category categoria = new Category();
                     Node pre = hijo.getAttributes().getNamedItem("pre");
                     if(pre != null){
-                        categoria.setPre(new HashSet(Arrays.asList(pre.getNodeValue().split(","))));
+                        categoria.setPre(new HashSet<String>(Arrays.asList(pre.getNodeValue().split(","))));
                     } else {
-                        categoria.setPre(new HashSet());
+                        categoria.setPre(new HashSet<String>());
                     }
                     Pattern p = null;
                     Template t = null;
@@ -127,67 +120,7 @@ public class Luci {
         return ret;
     }
     
-    
-    private Integer matchLemma(String palabra1, String palabra2){
-        return 0;
-    }
-    
-    /*
-        La idea es devolver un "puntaje", por eso por ahora devuelve integer.
-        Por ahora no leo los reads.
-        Hay que replantear los reads?
-    */
-    private Integer findMatchingPairs(List<String> tokenizedInput, List<PatternItem> patterns){
-        if(tokenizedInput.isEmpty() && patterns.isEmpty())
-            return 1;
-        if(tokenizedInput.isEmpty())
-            return -1;
-        if(patterns.isEmpty())
-            return -1;
-        PatternItem patternItem = patterns.get(0);
-        String palabra = tokenizedInput.get(0);
-        
-        if(patternItem instanceof PatternTextItem){
-            List<PatternItem> nextItems = patterns.subList(1, patterns.size());
-            List<String> nextWords = tokenizedInput.subList(1, tokenizedInput.size());
-            Integer match = matchLemma(((PatternTextItem) patternItem).getWord(), palabra) ;
-            if(match < 0){
-                return -1;
-            }
-            else{
-                return match * findMatchingPairs(nextWords, nextItems);
-            }
-        } else if (patternItem instanceof PatternMultiItem || patternItem instanceof PatternReadItem)
-        {
-            List<PatternItem> nextItems = patterns.subList(1, patterns.size());
-            List<String> nextWords = tokenizedInput.subList(1, tokenizedInput.size());
-            Integer matchValue = findMatchingPairs(nextWords, nextItems);
-            if(matchValue > 0){
-                return matchValue;
-            }
-            else{
-                return findMatchingPairs(nextWords, patterns);
-            }
-        }
-        return -1;
-    }
-    
-    private Set<Category> respuestasDisponibles(){
-        Set<String> precondicion = new HashSet<>();
-        
-        for(Pair<String, String> estadoValor: estado){
-            precondicion.add(estadoValor.getFirst());
-        }
-        
-        Set<Category> disponibles = new HashSet<>();
-        
-        for(Category c : categorias){
-            if(precondicion.containsAll(c.getPre())){
-                disponibles.add(c);
-            }
-        }
-        return disponibles;
-    }
+
     
     public String responder(String input){
         return tokenizarEntrada(input).toString();

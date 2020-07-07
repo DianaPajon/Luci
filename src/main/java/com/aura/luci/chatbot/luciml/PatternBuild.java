@@ -5,7 +5,7 @@
  */
 package com.aura.luci.chatbot.luciml;
 
-import com.aura.lematizador.lematizador.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.w3c.dom.Node;

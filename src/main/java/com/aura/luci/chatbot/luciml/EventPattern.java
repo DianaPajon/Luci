@@ -17,4 +17,22 @@ public class EventPattern  implements Pattern {
         this.event = event;
         this.innerPattern = innerPattern;
     }
+
+	public String getEvent() {
+		return event;
+	}
+
+	public void setEvent(String event) {
+		this.event = event;
+	}
+
+	public Pattern getInnerPattern() {
+		return innerPattern;
+	}
+
+	public void setInnerPattern(Pattern innerPattern) {
+		this.innerPattern = innerPattern;
+	}
+    
+    
 }
