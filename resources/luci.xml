@@ -6,14 +6,18 @@ and open the template in the editor.
 -->
 <luciml>
     <lematizador name="simple" tipo="lematizador" diccionario="resources/diccionarioSimple.xml" default="true"/>
-    <category lem="simple">
-        <pattern>Hola, soy <read name="nombre">.*</read></pattern> <!-- REGEX MATCHING, REVISAR -->
+    <category pre="simple">
+    	<pattern>Hola, mi nombre es *</pattern>
+    	<template>Hola</template>
+    </category>
+    <category pre="simple">
+        <pattern>Hola, soy <read name="nombre">*</read></pattern> <!-- REGEX MATCHING, REVISAR -->
         <template>Hola <get name="nombre"/></template>
     </category>
     <category pre="nombre">
         <pattern>
             <event name="pepe">
-                Hola, el es <read name="nombre">.*</read> <!-- Eventos con valores iguales a un pattern, pueden ser * -->
+                Hola, el es <read name="nombre">*</read> <!-- Eventos con valores iguales a un pattern, pueden ser * -->
             </event>
         </pattern>
         <template>
