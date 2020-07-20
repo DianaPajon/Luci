@@ -53,8 +53,6 @@ public abstract class PatternBuild {
                     String readVar = currentNode.getAttributes().getNamedItem("name").getNodeValue();
                     items.add(new PatternReadItem(readVar));
                     break;
-                case "event":
-                    return new EventPattern(currentNode.getAttributes().getNamedItem("name").getTextContent(), PatternBuild.buildPattern(currentNode));
                 default:
                     break;
             }

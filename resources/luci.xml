@@ -15,13 +15,7 @@ and open the template in the editor.
         <template>Hola <get name="nombre"/></template>
     </category>
     <category pre="nombre">
-        <pattern>
-            <event name="pepe">
-                Hola, el es <read name="nombre">*</read> <!-- Eventos con valores iguales a un pattern, pueden ser * -->
-            </event>
-        </pattern>
-        <template>
-            Hola <get name="nombre"/>
-        </template> 
+        <pattern>Hola, el es <read name="nombre">*</read></pattern>
+        <template>Hola <get name="nombre"/></template> 
     </category>
 </luciml>
