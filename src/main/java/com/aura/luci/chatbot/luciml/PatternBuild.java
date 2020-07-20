@@ -38,7 +38,7 @@ public abstract class PatternBuild {
                     String[] strings = currentNode.getNodeValue().replace(",", "").split(" ");
                     for(String palabra : strings){
                         if(palabra.matches("\\*")){
-                            items.add(new PatternMultiItem(palabra));
+                            items.add(new PatternReadItem(null));
                         } else {
                         	items.add(new PatternTextItem(palabra));
                         }
@@ -51,8 +51,7 @@ public abstract class PatternBuild {
                     break;
                 case "read":
                     String readVar = currentNode.getAttributes().getNamedItem("name").getNodeValue();
-                    String readPattern = currentNode.getTextContent();
-                    items.add(new PatternReadItem(readVar, readPattern));
+                    items.add(new PatternReadItem(readVar));
                     break;
                 case "event":
                     return new EventPattern(currentNode.getAttributes().getNamedItem("name").getTextContent(), PatternBuild.buildPattern(currentNode));

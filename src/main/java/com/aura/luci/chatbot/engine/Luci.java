@@ -10,6 +10,9 @@ import com.aura.lematizador.lematizador.Pair;
 import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
+import com.aura.luci.chatbot.luciml.PatternItem;
+import com.aura.luci.chatbot.luciml.PatternReadItem;
+import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Template;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,6 +86,8 @@ public class Luci {
         }
     }
     
+    
+    
     public Lematizador getLematizador() {
         return lematizador;
     }
@@ -104,6 +110,68 @@ public class Luci {
 
     public void setEstado(Set<Pair<String, String>> estado) {
         this.estado = estado;
+    }
+    
+    //TODO: Mock del  llamado ak lematizador
+    private String lema(String word) {
+    	return word;
+    }
+    
+    /*
+     * Código para matchear un input tokenizado con una lista de patterns de palabras y asteriscos
+     */
+    private boolean match (List<String> tokens, List<PatternItem> patrones) {
+    	//TODO: El código puede dar nullpointerexception, se trabajan las excepciones mas adelante.
+    	
+    	if(tokens.size() == 0 && patrones.size() == 0) {
+    		return true;
+    	}
+    	
+    	if(patrones.size() == 0 && tokens.size() != 0) {
+    		return false;
+    	}
+    	
+    	PatternItem primerPatron = patrones.get(0);
+    	String primerToken = tokens.get(0);
+    	if(primerPatron instanceof PatternTextItem) {
+    		PatternTextItem ppT = (PatternTextItem) primerPatron;
+    		String patternWord = ppT.getWord();
+    		if(Objects.equals(lema(primerToken), lema(patternWord))) {
+    			List<String>  nuevosTokens = tokens.subList(1, tokens.size() -1);
+    			List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size() -1);
+    			//TODO: recursión de cola. Java no la optimiza, pero puedo optimizarla 
+    			//bien fácil mas adelante si tengo stack overflows.
+    			return match(nuevosTokens, nuevosPatrones); 
+    		}
+    		
+    	}
+    	if(primerPatron instanceof PatternReadItem) {
+    		PatternReadItem ppR = (PatternReadItem) primerPatron;
+    		List<String> multiTokens = new ArrayList<String>(); //Lista que guarda lo matcheado.
+    		List<String>  nuevosTokens = tokens.subList(1, tokens.size() -1);
+    		List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size() -1);
+    		multiTokens.add(primerToken);
+    		while(nuevosTokens.size() > 0) {
+    			
+    			
+    			/*
+    			 * Esta llamada recursiva va a terminar teniendo la profundidad
+    			 * (si obviamos recursión de cola) de la cantidad de asteriscos
+    			 */
+    			
+    			if(match(nuevosTokens, nuevosPatrones)) {
+    				//TODO: Asign tokens to read
+    				return true;
+    			}
+    			else {
+    				multiTokens.add(nuevosTokens.get(0));
+    				nuevosTokens.remove(0);
+    			}
+    			
+    		}
+    		return false;
+    	}
+    	return false;
     }
     
     private List<String> tokenizarEntrada(String stringOriginal){

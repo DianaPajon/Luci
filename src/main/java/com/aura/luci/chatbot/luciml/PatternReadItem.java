@@ -11,11 +11,9 @@ package com.aura.luci.chatbot.luciml;
  */
 public class PatternReadItem extends PatternItem{
     private String var;
-    private String regex;
 
-    public PatternReadItem(String var, String regex) {
+    public PatternReadItem(String var) {
         this.var = var;
-        this.regex = regex;
     }
 
     public String getVar() {
@@ -26,13 +24,6 @@ public class PatternReadItem extends PatternItem{
         this.var = var;
     }
 
-    public String getRegex() {
-        return regex;
-    }
-
-    public void setRegex(String regex) {
-        this.regex = regex;
-    }
     
     
 }
