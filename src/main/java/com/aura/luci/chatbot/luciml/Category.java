@@ -5,6 +5,7 @@
  */
 package com.aura.luci.chatbot.luciml;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Set;
 public class Category {
     Pattern patron;
     Template template;
-    Set<String> pre;
+    Map<String, String> pre;
     
     public Pattern getPatron() {
         return patron;
@@ -32,14 +33,14 @@ public class Category {
         this.template = template;
     }
 
-    public Set<String> getPre() {
-        return pre;
-    }
+	public Map<String, String> getPre() {
+		return pre;
+	}
 
-    public void setPre(Set<String> pre) {
-        this.pre = pre;
-    }
-    
+	public void setPre(Map<String, String> pre) {
+		this.pre = pre;
+	}
+
     
     
 }

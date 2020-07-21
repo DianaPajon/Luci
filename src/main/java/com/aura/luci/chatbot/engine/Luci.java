@@ -56,12 +56,6 @@ public class Luci {
                     break;
                 case "category" :
                     Category categoria = new Category();
-                    Node pre = hijo.getAttributes().getNamedItem("pre");
-                    if(pre != null){
-                        categoria.setPre(new HashSet<String>(Arrays.asList(pre.getNodeValue().split(","))));
-                    } else {
-                        categoria.setPre(new HashSet<String>());
-                    }
                     Pattern p = null;
                     Template t = null;
                     for(int j = 0; j < hijo.getChildNodes().getLength();j++){
@@ -164,8 +158,7 @@ public class Luci {
     				return true;
     			}
     			else {
-    				multiTokens.add(nuevosTokens.get(0));
-    				nuevosTokens.remove(0);
+    				multiTokens.add(nuevosTokens.remove(0));
     			}
     			
     		}
