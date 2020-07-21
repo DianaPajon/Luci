@@ -13,6 +13,7 @@ import com.aura.luci.chatbot.luciml.PatternBuild;
 import com.aura.luci.chatbot.luciml.PatternItem;
 import com.aura.luci.chatbot.luciml.PatternReadItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
+import com.aura.luci.chatbot.luciml.Precondition;
 import com.aura.luci.chatbot.luciml.Template;
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +59,7 @@ public class Luci {
                     Category categoria = new Category();
                     Pattern p = null;
                     Template t = null;
+                    List<Precondition> precondiciones = new ArrayList();
                     for(int j = 0; j < hijo.getChildNodes().getLength();j++){
                         Node nieto = hijo.getChildNodes().item(j);
                         switch(nieto.getNodeName()){
@@ -67,10 +69,22 @@ public class Luci {
                             case "template":
                                 t = new Template(nieto);
                                 break;
+                            case "precondition":
+                            	for(int k = 0; k < nieto.getChildNodes().getLength(); k++) {
+                            		Node item = nieto.getChildNodes().item(k);
+                            		if("pi".equals(item.getNodeName())) {
+	                            		String var = item.getAttributes().getNamedItem("var").getNodeValue();
+	                            		String val = item.getAttributes().getNamedItem("val").getNodeValue();
+	                            		precondiciones.add(new Precondition(var,val));
+                            		}
+                            	}
+                        	default:
+                            		break;
                         }
                     }
                     categoria.setPatron(p);
                     categoria.setTemplate(t);
+                    categoria.setPreconditions(precondiciones);
                     categorias.add(categoria);
                     break;
                 default:
