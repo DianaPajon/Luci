@@ -142,8 +142,11 @@ public class Luci {
     private boolean match (List<String> tokens, List<PatternItem> patrones) {
     	//TODO: El código puede dar nullpointerexception, se trabajan las excepciones mas adelante.
     	
-    	if(tokens.size() == 0 && patrones.size() == 0) {
-    		return true;
+    	if(tokens.size() == 0) {
+    		if(patrones.size() != 0)
+    			return true;
+    		else
+    			return false;
     	}
     	
     	if(patrones.size() == 0 && tokens.size() != 0) {
