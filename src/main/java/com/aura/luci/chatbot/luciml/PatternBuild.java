@@ -40,7 +40,8 @@ public abstract class PatternBuild {
                         if(palabra.matches("\\*")){
                             items.add(new PatternReadItem(null));
                         } else {
-                        	items.add(new PatternTextItem(palabra));
+                        	if(palabra.length() > 0)
+                        		items.add(new PatternTextItem(palabra));
                         }
                     }
                     break;

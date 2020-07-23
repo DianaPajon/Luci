@@ -147,7 +147,7 @@ public class Luci {
     	//TODO: El código puede dar nullpointerexception, se trabajan las excepciones mas adelante.
     	
     	if(tokens.size() == 0) {
-    		if(patrones.size() != 0)
+    		if(patrones.size() == 0)
     			return true;
     		else
     			return false;
@@ -194,7 +194,7 @@ public class Luci {
     			}
     			
     		}
-    		if(match(nuevosTokens, nuevosPatrones)) {
+    		if(nuevosPatrones.size() == 0) {
 				this.actualizarEstado(ppR, String.join(" ", multiTokens));
 				return true;
 			}
