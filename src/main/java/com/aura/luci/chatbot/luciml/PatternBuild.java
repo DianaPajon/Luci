@@ -59,7 +59,7 @@ public abstract class PatternBuild {
 
         }
         
-        return new TextPattern(items);
+        return new Pattern(items);
         
     }
 }

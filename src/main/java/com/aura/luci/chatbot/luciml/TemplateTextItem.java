@@ -24,5 +24,8 @@ public class TemplateTextItem extends TemplateItem{
         this.text = text;
     }
     
-    
+    @Override
+    public String toString() {
+    	return this.text;
+    }
 }

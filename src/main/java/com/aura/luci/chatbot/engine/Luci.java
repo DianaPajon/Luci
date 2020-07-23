@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
  */
 public class Luci {
     private Lematizador lematizador;
-    private Set<Category> categorias;
+    private List<Category> categorias;
     private Map<String, String> estado;
     
     public Luci(Document luciml) throws SAXException, ParserConfigurationException, IOException{
@@ -47,7 +47,6 @@ public class Luci {
         Node luci = lucis.item(0);
         NodeList hijosDeLuci = luci.getChildNodes();
         List<Category> categorias = new ArrayList<>();
-        this.estado = new HashMap<String, String>();
         for(int i = 0 ; i < hijosDeLuci.getLength() ; i++ ){
             Node hijo = hijosDeLuci.item(i);
             switch(hijo.getNodeName()){
@@ -95,6 +94,9 @@ public class Luci {
             }
             
         }
+
+        this.estado = new HashMap<String, String>();
+        this.categorias = new ArrayList<Category>(categorias);
     }
     
     
@@ -107,11 +109,11 @@ public class Luci {
         this.lematizador = lematizador;
     }
 
-    public Set<Category> getCategorias() {
+    public List<Category> getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(Set<Category> categorias) {
+    public void setCategorias(List<Category> categorias) {
         this.categorias = categorias;
     }
 
@@ -154,8 +156,8 @@ public class Luci {
     		PatternTextItem ppT = (PatternTextItem) primerPatron;
     		String patternWord = ppT.getWord();
     		if(Objects.equals(lema(primerToken), lema(patternWord))) {
-    			List<String>  nuevosTokens = tokens.subList(1, tokens.size() -1);
-    			List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size() -1);
+    			List<String>  nuevosTokens = tokens.subList(1, tokens.size());
+    			List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size());
     			//TODO: recursión de cola. Java no la optimiza, pero puedo optimizarla 
     			//bien fácil mas adelante si tengo stack overflows.
     			return match(nuevosTokens, nuevosPatrones); 
@@ -165,8 +167,8 @@ public class Luci {
     	if(primerPatron instanceof PatternReadItem) {
     		PatternReadItem ppR = (PatternReadItem) primerPatron;
     		List<String> multiTokens = new ArrayList<String>(); //Lista que guarda lo matcheado.
-    		List<String>  nuevosTokens = tokens.subList(1, tokens.size() -1);
-    		List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size() -1);
+    		List<String>  nuevosTokens = tokens.subList(1, tokens.size());
+    		List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size());
     		multiTokens.add(primerToken);
     		while(nuevosTokens.size() > 0) {
     			
@@ -185,7 +187,10 @@ public class Luci {
     			}
     			
     		}
-    		return false;
+    		if(match(nuevosTokens, nuevosPatrones)) {
+				this.actualizarEstado(ppR, String.join(" ", multiTokens));
+				return true;
+			}
     	}
     	return false;
     }
@@ -205,9 +210,18 @@ public class Luci {
     }
     
 
+    private String applyTemplate(Template template) {
+    	return template.getItems().get(0).toString();
+    }
     
     public String responder(String input){
-        return tokenizarEntrada(input).toString();
+        List<String> entradaTokenizada =  tokenizarEntrada(input);
+        for(Category cat : this.categorias) {
+        	if(this.match(entradaTokenizada, cat.getPatron().getItems())) {
+        		return applyTemplate(cat.getTemplate());
+        	}
+        }
+        return null;
     }
     
 }

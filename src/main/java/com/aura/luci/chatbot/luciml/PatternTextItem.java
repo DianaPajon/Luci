@@ -24,5 +24,9 @@ public class PatternTextItem extends PatternItem{
         this.word = word;
     }
     
+    @Override
+    public String toString() {
+    	return this.word;
+    }
     
 }

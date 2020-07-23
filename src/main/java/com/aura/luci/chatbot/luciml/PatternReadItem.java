@@ -24,6 +24,11 @@ public class PatternReadItem extends PatternItem{
         this.var = var;
     }
 
-    
+    @Override
+    public String toString() {
+    	if(this.var == null)
+    		return "*";
+    	return "READ(" + this.var + ")";
+    }
     
 }

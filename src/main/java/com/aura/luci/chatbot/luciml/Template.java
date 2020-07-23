@@ -32,4 +32,11 @@ public class Template {
             }
         }
     }
+	public List<TemplateItem> getItems() {
+		return items;
+	}
+	public void setItems(List<TemplateItem> items) {
+		this.items = items;
+	}
+    
 }

@@ -5,12 +5,26 @@
  */
 package com.aura.luci.chatbot.luciml;
 
+import java.util.List;
+
 /**
  *
  * @author diana
- * 
- * Intefaz, por el momento vacía, que engloba todos los posibles patterns.
  */
-public interface Pattern {
+public class Pattern {
+    private List<PatternItem> items;
+    
+    public Pattern(List<PatternItem> items){
+        this.items = items;
+    }
+
+    public List<PatternItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PatternItem> items) {
+        this.items = items;
+    }
+    
     
 }
