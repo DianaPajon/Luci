@@ -18,7 +18,7 @@ and open the template in the editor.
     		<pi var="inicio" val="si"/>
     	</precondition>
         <pattern>Hola, soy <read name="nombre">*</read> soy la programadora</pattern> <!-- REGEX MATCHING, REVISAR -->
-        <template>Programadora template</template>
+        <template>Hola <get name="nombre"/></template>
     </category>
     <category>
     	<precondition>

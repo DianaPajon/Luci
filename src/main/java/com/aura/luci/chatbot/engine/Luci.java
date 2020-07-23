@@ -15,6 +15,10 @@ import com.aura.luci.chatbot.luciml.PatternReadItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Precondition;
 import com.aura.luci.chatbot.luciml.Template;
+import com.aura.luci.chatbot.luciml.TemplateGetItem;
+import com.aura.luci.chatbot.luciml.TemplateItem;
+import com.aura.luci.chatbot.luciml.TemplateTextItem;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -214,7 +218,22 @@ public class Luci {
     
 
     private String applyTemplate(Template template) {
-    	return template.getItems().get(0).toString();
+    	List<String> tokensRespuesta = new ArrayList<String>();
+    	for(TemplateItem item : template.getItems()) {
+    		if(item instanceof TemplateTextItem) {
+    			TemplateTextItem text = (TemplateTextItem) item;
+    			tokensRespuesta.add(text.getText());
+    		}
+    		if(item instanceof TemplateGetItem) {
+    			TemplateGetItem get = (TemplateGetItem) item;
+    			String var = get.getVar();
+    			String val = estado.get(var);
+    			if(val == null)
+    				continue;
+    			tokensRespuesta.add(val);
+    		}
+    	}
+    	return String.join(" ", tokensRespuesta);
     }
     
     public String responder(String input){
