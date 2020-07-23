@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
@@ -37,7 +39,7 @@ import org.xml.sax.SAXException;
 public class Luci {
     private Lematizador lematizador;
     private Set<Category> categorias;
-    private Set<Pair<String, String>> estado;
+    private Map<String, String> estado;
     
     public Luci(Document luciml) throws SAXException, ParserConfigurationException, IOException{
         NodeList lucis = luciml.getElementsByTagName("luciml");
@@ -45,6 +47,7 @@ public class Luci {
         Node luci = lucis.item(0);
         NodeList hijosDeLuci = luci.getChildNodes();
         List<Category> categorias = new ArrayList<>();
+        this.estado = new HashMap<String, String>();
         for(int i = 0 ; i < hijosDeLuci.getLength() ; i++ ){
             Node hijo = hijosDeLuci.item(i);
             switch(hijo.getNodeName()){
@@ -112,17 +115,23 @@ public class Luci {
         this.categorias = categorias;
     }
 
-    public Set<Pair<String, String>> getEstado() {
+    public Map<String, String> getEstado() {
         return estado;
     }
 
-    public void setEstado(Set<Pair<String, String>> estado) {
+    public void setEstado(Map<String, String> estado) {
         this.estado = estado;
     }
     
     //TODO: Mock del  llamado ak lematizador
     private String lema(String word) {
     	return word;
+    }
+    
+    private void actualizarEstado(PatternReadItem pat, String valor) {
+    	if(pat.getVar() != null) {
+    		this.estado.put(pat.getVar(), valor);
+    	}
     }
     
     /*
@@ -168,7 +177,7 @@ public class Luci {
     			 */
     			
     			if(match(nuevosTokens, nuevosPatrones)) {
-    				//TODO: Asign tokens to read
+    				this.actualizarEstado(ppR, String.join(" ", multiTokens));
     				return true;
     			}
     			else {
