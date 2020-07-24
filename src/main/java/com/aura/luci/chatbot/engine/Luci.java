@@ -100,6 +100,7 @@ public class Luci {
         }
 
         this.estado = new HashMap<String, String>();
+        this.estado.put("inicio", "si");
         this.categorias = new ArrayList<Category>(categorias);
     }
     
@@ -236,10 +237,18 @@ public class Luci {
     	return String.join(" ", tokensRespuesta);
     }
     
+    private boolean habilitada(Category cat) {
+    	boolean habilitado = true;
+    	for(Precondition p : cat.getPreconditions()) {
+    		habilitado = habilitado && p.getValue() == estado.get(p.getVariable());
+    	}
+    	return habilitado;
+    }
+    
     public String responder(String input){
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
-        	if(this.match(entradaTokenizada, cat.getPatron().getItems())) {
+        	if(this.habilitada(cat) && this.match(entradaTokenizada, cat.getPatron().getItems())) {
         		return applyTemplate(cat.getTemplate());
         	}
         }
