@@ -14,6 +14,7 @@ import com.aura.luci.chatbot.luciml.PatternItem;
 import com.aura.luci.chatbot.luciml.PatternReadItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Precondition;
+import com.aura.luci.chatbot.luciml.SetVar;
 import com.aura.luci.chatbot.luciml.Template;
 import com.aura.luci.chatbot.luciml.TemplateGetItem;
 import com.aura.luci.chatbot.luciml.TemplateItem;
@@ -65,7 +66,8 @@ public class Luci {
                     Category categoria = new Category();
                     Pattern p = null;
                     Template t = null;
-                    List<Precondition> precondiciones = new ArrayList();
+                    List<Precondition> precondiciones = new ArrayList<Precondition>();
+                    List<SetVar> sets = new ArrayList<SetVar>();
                     for(int j = 0; j < hijo.getChildNodes().getLength();j++){
                         Node nieto = hijo.getChildNodes().item(j);
                         switch(nieto.getNodeName()){
@@ -84,12 +86,23 @@ public class Luci {
 	                            		precondiciones.add(new Precondition(var,val));
                             		}
                             	}
+                            case "setvars":
+                            	for(int k = 0; k < nieto.getChildNodes().getLength(); k++) {
+                            		Node item = nieto.getChildNodes().item(k);
+                            		if("set".equals(item.getNodeName())) {
+	                            		String var = item.getAttributes().getNamedItem("var").getNodeValue();
+	                            		String val = item.getAttributes().getNamedItem("val").getNodeValue();
+	                            		sets.add(new SetVar(var,val));
+                            		}
+                            	}
+                            
                         	default:
                             		break;
                         }
                     }
                     categoria.setPatron(p);
                     categoria.setTemplate(t);
+                    categoria.setSetVars(sets);
                     categoria.setPreconditions(precondiciones);
                     categorias.add(categoria);
                     break;

@@ -17,7 +17,7 @@ public class Category {
     Pattern patron;
     Template template;
     List<Precondition> preconditions;
-    
+    List<SetVar> setVars;
     public Pattern getPatron() {
         return patron;
     }
@@ -41,9 +41,14 @@ public class Category {
 	public void setPreconditions(List<Precondition> preconditions) {
 		this.preconditions = preconditions;
 	}
-    
-    
-    
+
+	public List<SetVar> getSetVars() {
+		return setVars;
+	}
+
+	public void setSetVars(List<SetVar> setVars) {
+		this.setVars = setVars;
+	}
     
     
 }
