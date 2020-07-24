@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,14 +27,19 @@ public class LuciMain {
     public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException{
         File cfgFile = new File("resources/luci.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	Document document = (Document) dBuilder.parse(cfgFile);
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document document = (Document) dBuilder.parse(cfgFile);
         
         Luci luci = new Luci(document);
         
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String pregunta = "Hola, soy Diana, soy \"la programadora\"";
-        System.out.println(luci.responder(pregunta));
+        Scanner scan = new Scanner(System.in);
+        while(true){
+        	String pregunta ;
+        	pregunta = scan.nextLine();
+        	if("salir".equals(pregunta))
+        		break;
+        	System.out.println(luci.responder(pregunta));
+        }
     }
     
     
