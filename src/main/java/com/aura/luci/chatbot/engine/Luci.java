@@ -262,7 +262,11 @@ public class Luci {
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
         	if(this.habilitada(cat) && this.match(entradaTokenizada, cat.getPatron().getItems())) {
-        		return applyTemplate(cat.getTemplate());
+        		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
+        		for(SetVar s : cat.getSetVars()) {
+        			this.estado.put(s.getVar(), s.getNewValue());
+        		}
+        		return respuesta;
         	}
         }
         return null;
