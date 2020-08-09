@@ -7,6 +7,8 @@ package com.aura.luci.chatbot.engine;
 
 import com.aura.lematizador.lematizador.Lematizador;
 import com.aura.lematizador.lematizador.Pair;
+import com.aura.lematizador.lematizador.SynSet;
+import com.aura.lematizador.lematizador.Word;
 import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -143,9 +146,33 @@ public class Luci {
         this.estado = estado;
     }
     
-    //TODO: Mock del  llamado ak lematizador
-    private String lema(String word) {
-    	return word;
+
+    
+    private boolean sonSimilares(String palabra1, String palabra2) {
+    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1));
+    	if(lemas1.equals(Collections.emptySet())) {
+    		SynSet lemaNuevo = new SynSet(palabra1);
+    		Set<Word> instancias = new HashSet<>();
+    		instancias.add(new Word(palabra1));
+    		lemaNuevo.setInstancias(instancias);
+    		lemas1.add(lemaNuevo);
+    	}
+    	
+    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2));
+    	if(lemas2.equals(Collections.emptySet())) {
+    		SynSet lemaNuevo = new SynSet(palabra2);
+    		Set<Word> instancias = new HashSet<>();
+    		instancias.add(new Word(palabra2));
+    		lemaNuevo.setInstancias(instancias);
+    		lemas2.add(lemaNuevo);
+    	}
+    	
+    	lemas1.retainAll(lemas2);
+    	if(!lemas1.equals(Collections.emptySet())) {
+    		return true;
+    	}
+    	return false;
+    	
     }
     
     private void actualizarEstado(PatternReadItem pat, String valor) {
@@ -176,7 +203,7 @@ public class Luci {
     	if(primerPatron instanceof PatternTextItem) {
     		PatternTextItem ppT = (PatternTextItem) primerPatron;
     		String patternWord = ppT.getWord();
-    		if(Objects.equals(lema(primerToken), lema(patternWord))) {
+    		if(sonSimilares(primerToken, patternWord)) {
     			List<String>  nuevosTokens = tokens.subList(1, tokens.size());
     			List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size());
     			//TODO: recursión de cola. Java no la optimiza, pero puedo optimizarla 
