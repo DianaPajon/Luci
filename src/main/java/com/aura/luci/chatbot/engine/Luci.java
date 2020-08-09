@@ -264,7 +264,7 @@ public class Luci {
         	if(this.habilitada(cat) && this.match(entradaTokenizada, cat.getPatron().getItems())) {
         		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
         		for(SetVar s : cat.getSetVars()) {
-        			this.estado.put(s.getVar(), s.getNewValue());
+        			this.estado.put(s.getVariable(), s.getValor());
         		}
         		return respuesta;
         	}
