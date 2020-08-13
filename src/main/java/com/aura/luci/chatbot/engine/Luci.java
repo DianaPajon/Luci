@@ -13,6 +13,7 @@ import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
 import com.aura.luci.chatbot.luciml.PatternItem;
+import com.aura.luci.chatbot.luciml.PatternMultiItem;
 import com.aura.luci.chatbot.luciml.PatternReadItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Precondition;
@@ -48,6 +49,9 @@ public class Luci {
     private Lematizador lematizador;
     private List<Category> categorias;
     private Map<String, String> estado;
+    
+    private static String relacionSemantica = "hiperonimo";
+    private static double umbralSimilaridad = 0.5f;
     
     public Luci(Document luciml) throws SAXException, ParserConfigurationException, IOException{
         NodeList lucis = luciml.getElementsByTagName("luciml");
@@ -243,6 +247,50 @@ public class Luci {
     	return false;
     }
     
+    private double similaridadWuPalmer(String palabra1, String palabra2) {
+    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1));
+    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2));
+    	/*
+    	 * La eficiencia de este algoritmo aumenta considerablemente al escribir
+    	 * un arbol de conceptos en lugar de un látice, y al tener muy poca
+    	 * polisemia.
+    	 */
+    	double maxSimilarity = 0;
+		for(SynSet lema1 : lemas1) {
+			for(SynSet lema2:lemas2) {
+				SynSet lcs = lematizador.lcs("hiperonimo", lema1, lema2);
+				int profundidadLcs = lematizador.profundidad(relacionSemantica, lcs);
+				int profundidad1 = lematizador.profundidad(relacionSemantica, lema1);
+				int profundidad2 = lematizador.profundidad(relacionSemantica, lema2);
+				double wupalmer = 2 * (double) profundidadLcs / ((double) profundidad1 + (double) profundidad2);
+				maxSimilarity = Math.max(wupalmer, maxSimilarity);
+			}
+		}
+    	return maxSimilarity;
+    	
+    }
+    
+    private double similarityMatch(List<String> tokens, List<PatternItem> patron) {
+    	//Primero filtro los que son patternReadItem
+    	if(patron.stream().anyMatch(pattern -> pattern instanceof PatternReadItem)) {
+    		return 0;
+    	}
+    	double average = 0;
+    	int combinaciones = 0;
+    	for(String token : tokens) {
+    		for(PatternItem pi : patron) {
+    			if(pi instanceof PatternMultiItem) {
+    				continue;
+    			}
+    			PatternTextItem text = (PatternTextItem) pi;
+    			combinaciones++;
+    			average = average + similaridadWuPalmer(token, text.getWord());
+    		}
+    	}
+    	
+    	return average/combinaciones;
+    }
+    
     private List<String> tokenizarEntrada(String stringOriginal){
         List<String> ret = new ArrayList<>();
         
@@ -294,6 +342,27 @@ public class Luci {
         			this.estado.put(s.getVariable(), s.getValor());
         		}
         		return respuesta;
+        	}
+        }
+        
+        //Si no devolvió la respuesta antes, vamos con similaridad de oraciones. 
+        Category maxCat = null;
+        double maxSim = 0;
+        
+        for(Category cat : this.categorias) {
+        	if(this.habilitada(cat)) {
+        		double similaridad = similarityMatch(entradaTokenizada, cat.getPatron().getItems());
+        		if(similaridad > 0.5 && similaridad > maxSim) {
+        			maxCat = cat;
+        			maxSim = similaridad;
+        		}
+        	}
+        }
+        
+        if(maxCat != null) {
+        	String respuesta = applyTemplate(maxCat.getTemplate());
+        	for(SetVar s : maxCat.getSetVars()) {
+        		this.estado.put(s.getVariable(), s.getValor());
         	}
         }
         return null;
