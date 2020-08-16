@@ -224,7 +224,10 @@ public class Luci {
     	return false;
     }
     
-    
+    /*
+     * Se llama linear match, pero es cuadrático, no le voy a cmabiar, el nombre
+     * queda lindo.
+     */
     private boolean linearMatch (List<String> tokens, List<PatternItem> patrones) {
     	outer:
     	for(int i = 0;i<tokens.size();i++) {
