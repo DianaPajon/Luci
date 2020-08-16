@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -223,6 +224,38 @@ public class Luci {
     	return false;
     }
     
+    
+    private boolean linearMatch (List<String> tokens, List<PatternItem> patrones) {
+    	outer:
+    	for(int i = 0;i<tokens.size();i++) {
+	    	Iterator<String> iteradorTokens = tokens.subList(i, tokens.size()).iterator();
+	    	Iterator<PatternItem> iteradorPatrones = patrones.iterator();
+	    	List<PatternReadItem> reads = new ArrayList<>();
+	    	List<String> values = new ArrayList<>();
+	    	while(iteradorPatrones.hasNext()) {
+	    		PatternItem pi = iteradorPatrones.next();
+	    		if(pi instanceof PatternTextItem) {
+	    			PatternTextItem pti = (PatternTextItem) pi;
+	    			if(!iteradorTokens.hasNext())
+	    				continue outer;
+	    			String token = iteradorTokens.next();
+	    			if(!sonSimilares(token, pti.getWord()))
+	    				continue outer;
+	    		}else if (pi instanceof PatternReadItem) {
+	    			if(!iteradorTokens.hasNext())
+	    				continue outer;
+	    			reads.add((PatternReadItem) pi);
+	    			values.add(iteradorTokens.next());
+	    		}
+	    	}
+	    	for(int j = 0;j<reads.size();j++) {
+	    		actualizarEstado(reads.get(j), values.get(j));
+	    	}
+	    	return true;
+    	}
+    	return false;
+    }
+    
     private double similaridadWuPalmer(String palabra1, String palabra2) {
     	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1));
     	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2));
@@ -312,7 +345,7 @@ public class Luci {
     public String responder(String input){
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
-        	if(this.habilitada(cat) && this.regexMatch(entradaTokenizada, cat.getPatron().getItems())) {
+        	if(this.habilitada(cat) && this.linearMatch(entradaTokenizada, cat.getPatron().getItems())) {
         		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
         		for(SetVar s : cat.getSetVars()) {
         			this.estado.put(s.getVariable(), s.getValor());

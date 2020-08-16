@@ -19,7 +19,7 @@ and open the template in the editor.
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-    	<pattern>* mi nombre es <read name="nombre" />.*</pattern>
+    	<pattern>mi nombre es <read name="nombre" /></pattern>
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
@@ -30,7 +30,7 @@ and open the template in the editor.
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-    	<pattern>* soy <read name="nombre" />.*</pattern>
+    	<pattern>soy <read name="nombre" /></pattern>
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
@@ -41,7 +41,7 @@ and open the template in the editor.
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-    	<pattern>* me llamo <read name="nombre" />.*</pattern>
+    	<pattern>me llamo <read name="nombre" /></pattern>
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
