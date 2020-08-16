@@ -13,7 +13,6 @@ import com.aura.luci.chatbot.luciml.Category;
 import com.aura.luci.chatbot.luciml.Pattern;
 import com.aura.luci.chatbot.luciml.PatternBuild;
 import com.aura.luci.chatbot.luciml.PatternItem;
-import com.aura.luci.chatbot.luciml.PatternMultiItem;
 import com.aura.luci.chatbot.luciml.PatternReadItem;
 import com.aura.luci.chatbot.luciml.PatternTextItem;
 import com.aura.luci.chatbot.luciml.Precondition;
@@ -34,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -189,60 +191,34 @@ public class Luci {
      * Código para matchear un input tokenizado con una lista de patterns de palabras y asteriscos
      */
     private boolean match (List<String> tokens, List<PatternItem> patrones) {
-    	//TODO: El código puede dar nullpointerexception, se trabajan las excepciones mas adelante.
-    	
-    	if(tokens.size() == 0) {
-    		if(patrones.size() == 0)
-    			return true;
-    		else
-    			return false;
-    	}
-    	
-    	if(patrones.size() == 0 && tokens.size() != 0) {
-    		return false;
-    	}
-    	
-    	PatternItem primerPatron = patrones.get(0);
-    	String primerToken = tokens.get(0);
-    	if(primerPatron instanceof PatternTextItem) {
-    		PatternTextItem ppT = (PatternTextItem) primerPatron;
-    		String patternWord = ppT.getWord();
-    		if(sonSimilares(primerToken, patternWord)) {
-    			List<String>  nuevosTokens = tokens.subList(1, tokens.size());
-    			List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size());
-    			//TODO: recursión de cola. Java no la optimiza, pero puedo optimizarla 
-    			//bien fácil mas adelante si tengo stack overflows.
-    			return match(nuevosTokens, nuevosPatrones); 
+    	//Armo la regex
+    	String regexStart = ".*";
+    	String regexEnd = ".*";
+    	String regex = "";
+    	List<PatternReadItem> groups = new ArrayList<>();
+    	for(PatternItem pi : patrones) {
+    		if(pi instanceof PatternTextItem) {
+    			PatternTextItem pti = (PatternTextItem) pi;
+    			regex = regex + pti.getWord().toUpperCase() + "\\s*";
     		}
-    		
-    	}
-    	if(primerPatron instanceof PatternReadItem) {
-    		PatternReadItem ppR = (PatternReadItem) primerPatron;
-    		List<String> multiTokens = new ArrayList<String>(); //Lista que guarda lo matcheado.
-    		List<String>  nuevosTokens = tokens.subList(1, tokens.size());
-    		List<PatternItem> nuevosPatrones = patrones.subList(1, patrones.size());
-    		multiTokens.add(primerToken);
-    		while(nuevosTokens.size() > 0) {
-    			
-    			
-    			/*
-    			 * Esta llamada recursiva va a terminar teniendo la profundidad
-    			 * (si obviamos recursión de cola) de la cantidad de asteriscos
-    			 */
-    			
-    			if(match(nuevosTokens, nuevosPatrones)) {
-    				this.actualizarEstado(ppR, String.join(" ", multiTokens));
-    				return true;
-    			}
-    			else {
-    				multiTokens.add(nuevosTokens.remove(0));
-    			}
-    			
+    		if(pi instanceof PatternReadItem) {
+    			PatternReadItem pri = (PatternReadItem) pi;
+    			regex = regex + "(.*)\\s*";
+    			groups.add(pri);
     		}
-    		if(nuevosPatrones.size() == 0) {
-				this.actualizarEstado(ppR, String.join(" ", multiTokens));
-				return true;
-			}
+    	}
+    	//regex = regexStart + regex + regexEnd;
+    	String tokensJuntos = tokens.stream().map(s->s.toUpperCase()).collect(Collectors.joining(" "));
+    	if(tokensJuntos.matches(regex)) {
+    		java.util.regex.Pattern p = java.util.regex.Pattern.compile(regex);
+    		Matcher m = p.matcher(tokensJuntos);
+    		while(m.find()) {
+    			for(int i=0;i<groups.size();i++) {
+    				PatternReadItem pri = groups.get(i);
+    				actualizarEstado(pri, m.group(i+1));
+    			}
+    		}
+    		return true;
     	}
     	return false;
     }
@@ -279,7 +255,7 @@ public class Luci {
     	int combinaciones = 0;
     	for(String token : tokens) {
     		for(PatternItem pi : patron) {
-    			if(pi instanceof PatternMultiItem) {
+    			if(pi instanceof PatternReadItem) {
     				continue;
     			}
     			PatternTextItem text = (PatternTextItem) pi;
@@ -328,7 +304,7 @@ public class Luci {
     private boolean habilitada(Category cat) {
     	boolean habilitado = true;
     	for(Precondition p : cat.getPreconditions()) {
-    		habilitado = habilitado && p.getValue() == estado.get(p.getVariable());
+    		habilitado = habilitado && p.getValue().equals(estado.get(p.getVariable()));
     	}
     	return habilitado;
     }
@@ -364,6 +340,7 @@ public class Luci {
         	for(SetVar s : maxCat.getSetVars()) {
         		this.estado.put(s.getVariable(), s.getValor());
         	}
+        	return respuesta;
         }
         return null;
     }

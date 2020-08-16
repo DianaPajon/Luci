@@ -5,7 +5,8 @@ public class Precondition {
 	private String value;
 	
 	public Precondition(String variable, String value) {
-		
+		this.variable = variable;
+		this.value = value;
 	}
 
 	public String getVariable() {

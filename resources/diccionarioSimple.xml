@@ -5,21 +5,13 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <diccionario>
-	<relacion tipo="sem" directa="meronimo" inversa="hiperonimo"/>
-	<relacion tipo="sem" directa="lalalanimo" inversa="miminimo"/>
-	<relacion tipo="lex" directa="antonimo"/>
-	<synset lema="automovil-01" type="sustantivo">
-		<sem lema="rueda-01" relacion="meronimo"/>
-		<word lex="coche" />
-		<word lex="auto" />
-	</synset>
-	<synset lema="claro" type="adjetivo">
-		<word lex="claro">
-			<lex word="oscuro" relacion="antonimo" />
-		</word>
-	</synset>
-	<synset lema="oscuro" type="adjetivo">
-		<word lex="oscuro">
-		</word>
+	<relacion tipo="sem" directa="hiperonimo" inversa="meronimo"/>
+	<synset lema="afirmativo" type="adverbio">
+		<word lex="si" />
+		<word lex="dale" />
+		<word lex="ok" />
+		<word lex="bueno" />
+		<word lex="afirmativo" />
+		<word lex="quiero" />
 	</synset>
 </diccionario>

@@ -6,29 +6,68 @@ and open the template in the editor.
 -->
 <luciml>
     <lematizador name="simple" tipo="lematizador" diccionario="resources/diccionarioSimple.xml" default="true"/>
+    <!-- 
+    
+    
+    
+    SALUDO Y PREGUNTA EL NOMBRE 
+    
+    
+    
+    -->
     <category>
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-    	<pattern>Hola, mi nombre es *</pattern>
-    	<template>Hola</template>
-    	
+    	<pattern>* mi nombre es <read name="nombre" />.*</pattern>
+    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
+    	<setvars>
+    		<set var="inicio" val="no"/>
+    		<ser var="hacerunapizza" val="si"/>
+    	</setvars>
+    </category>
+	<category>
+    	<precondition>
+    		<pi var="inicio" val="si"/>
+    	</precondition>
+    	<pattern>* soy <read name="nombre" />.*</pattern>
+    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
+    	<setvars>
+    		<set var="inicio" val="no"/>
+    		<ser var="hacerunapizza" val="si"/>
+    	</setvars>
     </category>
     <category>
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-        <pattern>Hola, soy <read name="nombre">*</read>, soy la programadora</pattern> <!-- REGEX MATCHING, REVISAR -->
-        <template>Hola <get name="nombre"/></template>
-        <setvars>
-        	<set var="inicio" val="no"/>
-		</setvars>
+    	<pattern>* me llamo <read name="nombre" />.*</pattern>
+    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
+    	<setvars>
+    		<set var="inicio" val="no"/>
+    		<ser var="hacerunapizza" val="si"/>
+    	</setvars>
     </category>
-    <category>
+   	<!--  category>
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-        <pattern>Hola, el es <read name="nombre">*</read></pattern>
-        <template>Hola <get name="nombre"/></template> 
-    </category>
+    	<pattern><read name="nombre" /></pattern>
+    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
+    	<setvars>
+    		<set var="inicio" val="no"/>
+    		<ser var="hacerunapizza" val="si"/>
+    	</setvars>
+    </category-->
+    
+        <!-- 
+    
+    
+    
+    	QUERES HACER UNA PIZZA? 
+    
+    
+    
+    -->
+    
 </luciml>

@@ -33,6 +33,7 @@ public class LuciMain {
         Luci luci = new Luci(document);
         
         Scanner scan = new Scanner(System.in);
+        System.out.println("Hola!, soy luci, ¿cómo te llamás?");
         while(true){
         	String pregunta ;
         	pregunta = scan.nextLine();
