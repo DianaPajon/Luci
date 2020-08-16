@@ -190,7 +190,7 @@ public class Luci {
     /*
      * Código para matchear un input tokenizado con una lista de patterns de palabras y asteriscos
      */
-    private boolean match (List<String> tokens, List<PatternItem> patrones) {
+    private boolean regexMatch (List<String> tokens, List<PatternItem> patrones) {
     	//Armo la regex
     	String regexStart = ".*";
     	String regexEnd = ".*";
@@ -312,7 +312,7 @@ public class Luci {
     public String responder(String input){
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
-        	if(this.habilitada(cat) && this.match(entradaTokenizada, cat.getPatron().getItems())) {
+        	if(this.habilitada(cat) && this.regexMatch(entradaTokenizada, cat.getPatron().getItems())) {
         		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
         		for(SetVar s : cat.getSetVars()) {
         			this.estado.put(s.getVariable(), s.getValor());
