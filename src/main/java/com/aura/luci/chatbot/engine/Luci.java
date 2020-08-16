@@ -156,20 +156,20 @@ public class Luci {
 
     
     private boolean sonSimilares(String palabra1, String palabra2) {
-    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1));
+    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1.toUpperCase()));
     	if(lemas1.equals(Collections.emptySet())) {
-    		SynSet lemaNuevo = new SynSet(palabra1);
+    		SynSet lemaNuevo = new SynSet(palabra1.toUpperCase());
     		Set<Word> instancias = new HashSet<>();
-    		instancias.add(new Word(palabra1));
+    		instancias.add(new Word(palabra1.toUpperCase()));
     		lemaNuevo.setInstancias(instancias);
     		lemas1.add(lemaNuevo);
     	}
     	
-    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2));
+    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2.toUpperCase()));
     	if(lemas2.equals(Collections.emptySet())) {
-    		SynSet lemaNuevo = new SynSet(palabra2);
+    		SynSet lemaNuevo = new SynSet(palabra2.toUpperCase());
     		Set<Word> instancias = new HashSet<>();
-    		instancias.add(new Word(palabra2));
+    		instancias.add(new Word(palabra2.toUpperCase()));
     		lemaNuevo.setInstancias(instancias);
     		lemas2.add(lemaNuevo);
     	}

@@ -23,7 +23,7 @@ and open the template in the editor.
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
-    		<ser var="hacerunapizza" val="si"/>
+    		<set var="hacerunapizza" val="si"/>
     	</setvars>
     </category>
 	<category>
@@ -34,7 +34,7 @@ and open the template in the editor.
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
-    		<ser var="hacerunapizza" val="si"/>
+    		<set var="hacerunapizza" val="si"/>
     	</setvars>
     </category>
     <category>
@@ -45,10 +45,10 @@ and open the template in the editor.
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
-    		<ser var="hacerunapizza" val="si"/>
+    		<set var="hacerunapizza" val="si"/>
     	</setvars>
     </category>
-   	<!--  category>
+    <category>
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
@@ -56,11 +56,71 @@ and open the template in the editor.
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
-    		<ser var="hacerunapizza" val="si"/>
+    		<set var="hacerunapizza" val="si"/>
     	</setvars>
-    </category-->
+    </category>
     
         <!-- 
+    
+    
+    
+    	QUERES HACER UNA PIZZA? 
+    
+    
+    
+    -->
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>afirmativo</pattern>
+    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
+    	<setvars>
+    		<set var="ingredientes" val="si"/>
+    	</setvars>
+    </category>
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>supuesto</pattern>
+    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
+    	<setvars>
+    		<set var="ingredientes" val="si"/>
+    	</setvars>
+    </category>
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>encantaria</pattern>
+    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
+    	<setvars>
+    		<set var="ingredientes" val="si"/>
+    	</setvars>
+    </category>
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>siempre</pattern>
+    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
+    	<setvars>
+    		<set var="ingredientes" val="si"/>
+    	</setvars>
+    </category>
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>negativo</pattern>
+    	<template>Pero yo solamente se hacer pizzas, ¿no me dejas que te enseñe a hacer una pizza?.</template>
+    	<setvars>
+    	</setvars>
+    </category>
+    
+    
+            <!-- 
     
     
     
