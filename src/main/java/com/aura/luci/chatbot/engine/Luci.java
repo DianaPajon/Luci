@@ -156,22 +156,26 @@ public class Luci {
 
     
     private boolean sonSimilares(String palabra1, String palabra2) {
-    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1.toUpperCase()));
+    	Set<SynSet> lemas1 = lematizador.encontrarLema(new Word(palabra1));
     	if(lemas1.equals(Collections.emptySet())) {
     		SynSet lemaNuevo = new SynSet(palabra1.toUpperCase());
     		Set<Word> instancias = new HashSet<>();
     		instancias.add(new Word(palabra1.toUpperCase()));
     		lemaNuevo.setInstancias(instancias);
     		lemas1.add(lemaNuevo);
+    	} else {
+    		String breakpoint = "hola1";
     	}
     	
-    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2.toUpperCase()));
+    	Set<SynSet> lemas2 = lematizador.encontrarLema(new Word(palabra2));
     	if(lemas2.equals(Collections.emptySet())) {
     		SynSet lemaNuevo = new SynSet(palabra2.toUpperCase());
     		Set<Word> instancias = new HashSet<>();
     		instancias.add(new Word(palabra2.toUpperCase()));
     		lemaNuevo.setInstancias(instancias);
     		lemas2.add(lemaNuevo);
+    	} else {
+    		String breakpoint = "hola2";
     	}
     	
     	lemas1.retainAll(lemas2);
@@ -228,7 +232,7 @@ public class Luci {
      * Se llama linear match, pero es cuadrático, no le voy a cmabiar, el nombre
      * queda lindo.
      */
-    private boolean linearMatch (List<String> tokens, List<PatternItem> patrones) {
+    private boolean dictionaryMatch (List<String> tokens, List<PatternItem> patrones) {
     	outer:
     	for(int i = 0;i<tokens.size();i++) {
 	    	Iterator<String> iteradorTokens = tokens.subList(i, tokens.size()).iterator();
@@ -348,7 +352,7 @@ public class Luci {
     public String responder(String input){
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
-        	if(this.habilitada(cat) && this.linearMatch(entradaTokenizada, cat.getPatron().getItems())) {
+        	if(this.habilitada(cat) && this.dictionaryMatch(entradaTokenizada, cat.getPatron().getItems())) {
         		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
         		for(SetVar s : cat.getSetVars()) {
         			this.estado.put(s.getVariable(), s.getValor());
