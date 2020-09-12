@@ -87,6 +87,7 @@ and open the template in the editor.
     	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
     	<setvars>
     		<set var="ingredientes" val="si"/>
+    		<set var="hacerunapizza" val="no"/>
     	</setvars>
     </category>
     <category>
@@ -97,6 +98,7 @@ and open the template in the editor.
     	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
     	<setvars>
     		<set var="ingredientes" val="si"/>
+    		<set var="hacerunapizza" val="no"/>
     	</setvars>
     </category>
     <category>
@@ -107,6 +109,7 @@ and open the template in the editor.
     	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
     	<setvars>
     		<set var="ingredientes" val="si"/>
+    		<set var="hacerunapizza" val="no"/>
     	</setvars>
     </category>
     <category>
@@ -119,15 +122,15 @@ and open the template in the editor.
     	</setvars>
     </category>
     
-    
-    <!-- 
-    
-    
-    
-    	QUERES HACER UNA PIZZA? 
-    
-    
-    
-    -->
-    
+    <category>
+    	<precondition>
+    		<pi var="hacerunapizza" val="si"/>
+    	</precondition>
+    	<pattern>encantaria</pattern>
+    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
+    	<setvars>
+    		<set var="ingredientes" val="si"/>
+    		<set var="hacerunapizza" val="no"/>
+    	</setvars>
+    </category>
 </luciml>

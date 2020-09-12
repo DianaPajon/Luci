@@ -14,4 +14,12 @@ and open the template in the editor.
 		<word lex="afirmativo" />
 		<word lex="quiero" />
 	</synset>
+	<synset lema="negativo" type="adverbio">
+		<word lex="no" />
+		<word lex="nunca" />
+		<word lex="odio" />
+		<word lex="fea" />
+		<word lex="quiero" />
+		<word lex="negativo"/>
+	</synset>
 </diccionario>
