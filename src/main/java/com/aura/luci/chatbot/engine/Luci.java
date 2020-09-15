@@ -74,15 +74,15 @@ public class Luci {
                     break;
                 case "category" :
                     Category categoria = new Category();
-                    Pattern p = null;
+                    List<Pattern> p = null;
                     Template t = null;
                     List<Precondition> precondiciones = new ArrayList<Precondition>();
                     List<SetVar> sets = new ArrayList<SetVar>();
                     for(int j = 0; j < hijo.getChildNodes().getLength();j++){
                         Node nieto = hijo.getChildNodes().item(j);
                         switch(nieto.getNodeName()){
-                            case "pattern":
-                                p = PatternBuild.buildPattern(nieto);
+                            case "patterns":
+                                p = PatternBuild.buildPatterns(nieto);
                                 break;
                             case "template":
                                 t = new Template(nieto);
@@ -110,7 +110,7 @@ public class Luci {
                             		break;
                         }
                     }
-                    categoria.setPatron(p);
+                    categoria.setPatrones(p);
                     categoria.setTemplate(t);
                     categoria.setSetVars(sets);
                     categoria.setPreconditions(precondiciones);
@@ -352,12 +352,14 @@ public class Luci {
     public String responder(String input){
         List<String> entradaTokenizada =  tokenizarEntrada(input);
         for(Category cat : this.categorias) {
-        	if(this.habilitada(cat) && this.dictionaryMatch(entradaTokenizada, cat.getPatron().getItems())) {
-        		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
-        		for(SetVar s : cat.getSetVars()) {
-        			this.estado.put(s.getVariable(), s.getValor());
-        		}
-        		return respuesta;
+        	for(Pattern patron : cat.getPatrones()) {
+	        	if(this.habilitada(cat) && this.dictionaryMatch(entradaTokenizada, patron.getItems())) {
+	        		String respuesta = applyTemplate(cat.getTemplate()); //calculo la respuesta antes de los sets.
+	        		for(SetVar s : cat.getSetVars()) {
+	        			this.estado.put(s.getVariable(), s.getValor());
+	        		}
+	        		return respuesta;
+	        	}
         	}
         }
         
@@ -366,12 +368,14 @@ public class Luci {
         double maxSim = 0;
         
         for(Category cat : this.categorias) {
-        	if(this.habilitada(cat)) {
-        		double similaridad = similarityMatch(entradaTokenizada, cat.getPatron().getItems());
-        		if(similaridad > 0.5 && similaridad > maxSim) {
-        			maxCat = cat;
-        			maxSim = similaridad;
-        		}
+        	for(Pattern p : cat.getPatrones()) {
+            	if(this.habilitada(cat)) {
+            		double similaridad = similarityMatch(entradaTokenizada, p.getItems());
+            		if(similaridad > 0.5 && similaridad > maxSim) {
+            			maxCat = cat;
+            			maxSim = similaridad;
+            		}
+            	}
         	}
         }
         

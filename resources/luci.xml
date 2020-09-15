@@ -19,40 +19,13 @@ and open the template in the editor.
     	<precondition>
     		<pi var="inicio" val="si"/>
     	</precondition>
-    	<pattern>mi nombre es <read name="nombre" /></pattern>
-    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
-    	<setvars>
-    		<set var="inicio" val="no"/>
-    		<set var="hacerunapizza" val="si"/>
-    	</setvars>
-    </category>
-	<category>
-    	<precondition>
-    		<pi var="inicio" val="si"/>
-    	</precondition>
-    	<pattern>soy <read name="nombre" /></pattern>
-    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
-    	<setvars>
-    		<set var="inicio" val="no"/>
-    		<set var="hacerunapizza" val="si"/>
-    	</setvars>
-    </category>
-    <category>
-    	<precondition>
-    		<pi var="inicio" val="si"/>
-    	</precondition>
-    	<pattern>me llamo <read name="nombre" /></pattern>
-    	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
-    	<setvars>
-    		<set var="inicio" val="no"/>
-    		<set var="hacerunapizza" val="si"/>
-    	</setvars>
-    </category>
-    <category>
-    	<precondition>
-    		<pi var="inicio" val="si"/>
-    	</precondition>
-    	<pattern><read name="nombre" /></pattern>
+    	<patterns>
+    		<pattern>mi nombre es <read name="nombre" /></pattern>
+    		<pattern>soy <read name="nombre" /></pattern>
+	    	<pattern>me llamo <read name="nombre" /></pattern>
+   	    	<pattern><read name="nombre" /></pattern>
+    	</patterns>
+    	
     	<template>Hola <get name="nombre"/>!, ¿querés que hagamos una pizza?</template>
     	<setvars>
     		<set var="inicio" val="no"/>
@@ -60,77 +33,45 @@ and open the template in the editor.
     	</setvars>
     </category>
     
-        <!-- 
     
     
-    
-    	QUERES HACER UNA PIZZA? 
-    
-    
-    
-    -->
     <category>
     	<precondition>
     		<pi var="hacerunapizza" val="si"/>
     	</precondition>
-    	<pattern>afirmativo</pattern>
+    	<patterns>
+    		<pattern>afirmativo</pattern>
+    		<pattern>siempre</pattern>
+    		<pattern>ponele</pattern>
+   		</patterns>
     	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
     	<setvars>
     		<set var="ingredientes" val="si"/>
     	</setvars>
     </category>
+
+
     <category>
     	<precondition>
     		<pi var="hacerunapizza" val="si"/>
     	</precondition>
-    	<pattern>supuesto</pattern>
-    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
-    	<setvars>
-    		<set var="ingredientes" val="si"/>
-    		<set var="hacerunapizza" val="no"/>
-    	</setvars>
-    </category>
-    <category>
-    	<precondition>
-    		<pi var="hacerunapizza" val="si"/>
-    	</precondition>
-    	<pattern>encantaria</pattern>
-    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
-    	<setvars>
-    		<set var="ingredientes" val="si"/>
-    		<set var="hacerunapizza" val="no"/>
-    	</setvars>
-    </category>
-    <category>
-    	<precondition>
-    		<pi var="hacerunapizza" val="si"/>
-    	</precondition>
-    	<pattern>siempre</pattern>
-    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
-    	<setvars>
-    		<set var="ingredientes" val="si"/>
-    		<set var="hacerunapizza" val="no"/>
-    	</setvars>
-    </category>
-    <category>
-    	<precondition>
-    		<pi var="hacerunapizza" val="si"/>
-    	</precondition>
-    	<pattern>negativo</pattern>
+    	<patterns>
+    		<pattern>negativo</pattern>
+    	</patterns>
     	<template>Pero yo solamente se hacer pizzas, ¿no me dejas que te enseñe a hacer una pizza?.</template>
     	<setvars>
     	</setvars>
     </category>
     
+   
     <category>
-    	<precondition>
-    		<pi var="hacerunapizza" val="si"/>
-    	</precondition>
-    	<pattern>encantaria</pattern>
-    	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
-    	<setvars>
-    		<set var="ingredientes" val="si"/>
-    		<set var="hacerunapizza" val="no"/>
-    	</setvars>
+        	<precondition><pi var="ingredientes" val="si"/></precondition>
+        	<patterns>
+    			<pattern>que necesito?</pattern>
+    			<pattern>que</pattern>
+    		</patterns>
+    		<template>Hace falta mozzarella, harina, levadura, tomate, albahaca, orégano y ajo.</template>
+    		<setvars> 
+    		</setvars>
     </category>
 </luciml>

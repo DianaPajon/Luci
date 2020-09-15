@@ -22,4 +22,8 @@ and open the template in the editor.
 		<word lex="quiero" />
 		<word lex="negativo"/>
 	</synset>
+	<synset lema="necesito" type="familia">
+		<word lex="necesito"/>
+		<word lex="falta"/>
+	</synset>
 </diccionario>

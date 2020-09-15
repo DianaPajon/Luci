@@ -14,19 +14,21 @@ import java.util.Set;
  * @author diana
  */
 public class Category {
-    Pattern patron;
+    List<Pattern> patrones;
     Template template;
     List<Precondition> preconditions;
     List<SetVar> setVars;
-    public Pattern getPatron() {
-        return patron;
-    }
 
-    public void setPatron(Pattern patron) {
-        this.patron = patron;
-    }
 
-    public Template getTemplate() {
+    public List<Pattern> getPatrones() {
+		return patrones;
+	}
+
+	public void setPatrones(List<Pattern> patrones) {
+		this.patrones = patrones;
+	}
+
+	public Template getTemplate() {
         return template;
     }
 
