@@ -47,6 +47,7 @@ and open the template in the editor.
     	<template>¡Genial!, primero hay que conseguir los ingredientes.</template>
     	<setvars>
     		<set var="ingredientes" val="si"/>
+    		<set var="hacerunapizza" val="no"/>
     	</setvars>
     </category>
 
@@ -69,9 +70,65 @@ and open the template in the editor.
         	<patterns>
     			<pattern>que necesito?</pattern>
     			<pattern>que</pattern>
+                        <pattern>cuales</pattern>
     		</patterns>
     		<template>Hace falta mozzarella, harina, levadura, tomate, albahaca, orégano y ajo.</template>
     		<setvars> 
     		</setvars>
     </category>
+    
+    <category>
+    	<precondition>
+    		<pi var="ingredientes" val="si" />
+    	</precondition>
+    	<patterns>
+    		<pattern>No me gusta la muzzarella</pattern>
+    		<pattern>mozzarella no</pattern>
+                <pattern>vegan</pattern>
+    	</patterns>
+    	<template>Que lástima</template>
+    	<setvars></setvars>
+    </category>
+    
+    <category>
+        <precondition>
+            <pi var="ingredientes" val="si"/>
+            
+        </precondition>
+        <patterns>
+            <pattern>Donde consigo</pattern>
+        </patterns>
+        <template>Todos los ingredientes se consiguen en el supermercado</template>
+        <setvars></setvars>
+    </category>
+    
+    <category>
+        <precondition>
+            <pi var="ingredientes" val="si"/>
+            
+        </precondition>
+        <patterns>
+            <pattern>no hay albahaca</pattern>
+        </patterns>
+        <template>
+            Usa el condimento que mas te guste entonces, yo tampoco consigo albahaca
+        </template>
+        <setvars></setvars>
+    </category>
+    
+    
+    <category>
+        <precondition>
+            <pi var="ingredientes" val="si"/>
+            
+        </precondition>
+        <patterns>
+            <pattern>puedo usar queso</pattern>
+        </patterns>
+        <template>
+            A mi me gusta con mozzarella, pero vos ponele el queso que mas te guste.
+        </template>
+        <setvars></setvars>
+    </category>
+    
 </luciml>

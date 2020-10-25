@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  */
 public class LuciMain {
     public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException{
-        File cfgFile = new File("resources/luci.xml");
+        File cfgFile = new File("resources/sandbox.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document document = (Document) dBuilder.parse(cfgFile);

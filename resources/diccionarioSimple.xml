@@ -22,8 +22,44 @@ and open the template in the editor.
 		<word lex="quiero" />
 		<word lex="negativo"/>
 	</synset>
-	<synset lema="necesito" type="familia">
+	<synset lema="necesito" type="verbo">
 		<word lex="necesito"/>
 		<word lex="falta"/>
 	</synset>
+	
+	<synset lema="muzzarella" type="sustantivo">
+		<word lex="muzzarella"/>
+		<word lex="mozzarella"/>
+		<word lex="muzarella"/>
+	</synset>
+        
+        <synset lema="vegan" type="adjetivo">
+            <word lex="vegan"/>
+            <word lex="vegana"/>
+            <word lex="vegano"/>
+            <word lex="vegane"/>
+        </synset>
+        
+        <synset lema="queso" type="sustantivo">
+            <word lex="queso"/>
+            <sem relacion="hiperonimo" lema="roquefort"/>
+            <sem relacion="hiperonimo" lema="cremoso"/>
+            <sem relacion="hiperonimo" lema="cheddar"/>
+            <sem relacion="hiperonimo" lema="salut"/>
+            <sem relacion="hiperonimo" lema="rallado"/>
+            <sem relacion="hiperonimo" lema="cremoso"/>
+        </synset>
+        
+        <synset lema="roquefort" type="sustantivo">
+            <word lex="roquefort"/>
+        </synset>
+        
+        <synset lema="cremoso" type="sustantivo">
+            <word lex="cremoso"/>
+        </synset>
+        
+        <synset lema="porsalut" type="sustantivo">
+            <word lex="porsalut"/>
+        </synset>
+        
 </diccionario>

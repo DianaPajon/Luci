@@ -229,8 +229,7 @@ public class Luci {
     }
     
     /*
-     * Se llama linear match, pero es cuadrático, no le voy a cmabiar, el nombre
-     * queda lindo.
+     * Matcheo por palabras de diccionario.
      */
     private boolean dictionaryMatch (List<String> tokens, List<PatternItem> patrones) {
     	outer:
@@ -299,6 +298,11 @@ public class Luci {
     				continue;
     			}
     			PatternTextItem text = (PatternTextItem) pi;
+                        if(text.getWord().equalsIgnoreCase(token)){
+                            combinaciones++;
+                            average = average + patron.size() - 1;
+                            continue;
+                        }
     			combinaciones++;
     			average = average + similaridadWuPalmer(token, text.getWord());
     		}
@@ -311,7 +315,7 @@ public class Luci {
         List<String> ret = new ArrayList<>();
         
         String delims = "[\\s,\\.;:]+";
-        String rubbish = "\"'";
+        String rubbish = "\"'?!";
         String[] splitted = stringOriginal.split(delims);
         
         for(String s : splitted){
@@ -368,14 +372,15 @@ public class Luci {
         double maxSim = 0;
         
         for(Category cat : this.categorias) {
-        	for(Pattern p : cat.getPatrones()) {
-            	if(this.habilitada(cat)) {
-            		double similaridad = similarityMatch(entradaTokenizada, p.getItems());
-            		if(similaridad > 0.5 && similaridad > maxSim) {
-            			maxCat = cat;
-            			maxSim = similaridad;
-            		}
-            	}
+                if(this.habilitada(cat)) {
+                    for(Pattern p : cat.getPatrones()) {
+
+                            double similaridad = similarityMatch(entradaTokenizada, p.getItems());
+                            if(similaridad > 0.5 && similaridad > maxSim) {
+                                    maxCat = cat;
+                                    maxSim = similaridad;
+                            }
+                    }
         	}
         }
         
