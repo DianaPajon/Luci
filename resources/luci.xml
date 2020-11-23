@@ -110,9 +110,7 @@ and open the template in the editor.
         <patterns>
             <pattern>no hay albahaca</pattern>
         </patterns>
-        <template>
-            Usa el condimento que mas te guste entonces, yo tampoco consigo albahaca
-        </template>
+        <template>Usa el condimento que mas te guste entonces, yo tampoco consigo albahaca</template>
         <setvars></setvars>
     </category>
     
@@ -120,15 +118,28 @@ and open the template in the editor.
     <category>
         <precondition>
             <pi var="ingredientes" val="si"/>
-            
         </precondition>
         <patterns>
             <pattern>puedo usar queso</pattern>
+            <pattern>puedo ponerle queso</pattern>
+            <pattern>puedo ponerle queso</pattern>
         </patterns>
-        <template>
-            A mi me gusta con mozzarella, pero vos ponele el queso que mas te guste.
-        </template>
+        <template>A mi me gusta con mozzarella, pero vos ponele el queso que mas te guste.</template>
+        <setvars></setvars>
+    </category>
+
+        
+    <category>
+        <precondition>
+            <pi var="ingredientes" val="si"/>
+        </precondition>
+        <patterns>
+            <pattern>no consigo ingrediente</pattern>
+            <pattern>donde compro ingrediente</pattern>
+        </patterns>
+        <template>Todo se consigue en cualquier supermercado.</template>
         <setvars></setvars>
     </category>
     
+            
 </luciml>

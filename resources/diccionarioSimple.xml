@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <diccionario>
 	<relacion tipo="sem" directa="hiperonimo" inversa="meronimo"/>
-	<synset lema="afirmativo" type="adverbio">
+	<synset lema="afirmativo" type="palabra">
 		<word lex="si" />
 		<word lex="dale" />
 		<word lex="ok" />
@@ -14,7 +14,7 @@ and open the template in the editor.
 		<word lex="afirmativo" />
 		<word lex="quiero" />
 	</synset>
-	<synset lema="negativo" type="adverbio">
+	<synset lema="negativo" type="palabra">
 		<word lex="no" />
 		<word lex="nunca" />
 		<word lex="odio" />
@@ -22,25 +22,25 @@ and open the template in the editor.
 		<word lex="quiero" />
 		<word lex="negativo"/>
 	</synset>
-	<synset lema="necesito" type="verbo">
+	<synset lema="necesito" type="palabra">
 		<word lex="necesito"/>
 		<word lex="falta"/>
 	</synset>
 	
-	<synset lema="muzzarella" type="sustantivo">
+	<synset lema="muzzarella" type="palabra">
 		<word lex="muzzarella"/>
 		<word lex="mozzarella"/>
 		<word lex="muzarella"/>
 	</synset>
         
-        <synset lema="vegan" type="adjetivo">
+        <synset lema="vegan" type="palabra">
             <word lex="vegan"/>
             <word lex="vegana"/>
             <word lex="vegano"/>
             <word lex="vegane"/>
         </synset>
         
-        <synset lema="queso" type="sustantivo">
+        <synset lema="queso" type="palabra">
             <word lex="queso"/>
             <sem relacion="hiperonimo" lema="roquefort"/>
             <sem relacion="hiperonimo" lema="cremoso"/>
@@ -50,16 +50,59 @@ and open the template in the editor.
             <sem relacion="hiperonimo" lema="cremoso"/>
         </synset>
         
-        <synset lema="roquefort" type="sustantivo">
+        <synset lema="ingrediente" type="palabra">
+            <word lex="ingrediente"/>
+            <sem relacion="hiperonimo" lema="queso"/>
+            <sem relacion="hiperonimo" lema="harina"/>
+            <sem relacion="hiperonimo" lema="levadura"/>
+            <sem relacion="hiperonimo" lema="tomate"/>
+            <sem relacion="hiperonimo" lema="albahaca"/>
+            <sem relacion="hiperonimo" lema="orégano"/>
+            <sem relacion="hiperonimo" lema="ajo"/>
+        </synset>
+        
+        <synset lema="harina" type="palabra">
+            <word lex="harina"/>
+        </synset>
+        <synset lema="levadura" type="palabra">
+            <word lex="levadura"/>
+        </synset>
+        <synset lema="tomate" type="palabra">
+            <word lex="tomate"/>
+        </synset>
+        <synset lema="albahaca" type="palabra">
+            <word lex="albahaca"/>
+        </synset>
+        <synset lema="orégano" type="palabra">
+            <word lex="orégano"/>
+        </synset>
+        <synset lema="ajo" type="palabra">
+            <word lex="ajo"/>
+        </synset>
+        
+        
+        
+        
+        
+        
+        
+        
+        <synset lema="roquefort" type="palabra">
             <word lex="roquefort"/>
         </synset>
         
-        <synset lema="cremoso" type="sustantivo">
+        <synset lema="cremoso" type="palabra">
             <word lex="cremoso"/>
         </synset>
         
-        <synset lema="porsalut" type="sustantivo">
+        <synset lema="porsalut" type="palabra">
             <word lex="porsalut"/>
         </synset>
         
+        <synset lema="hay" type="palabra">
+            <word lex="hay"/>
+            <word lex="consigo"/>
+            <word lex="encuentro"/>
+            <word lex="compro"/>
+        </synset>
 </diccionario>
